@@ -4,6 +4,9 @@ import chokidar from 'chokidar'
 import { NotionAPI } from 'notion-client'
 
 const { NOTION_ACCESS_TOKEN } = process.env
+const FETCH_MIN_INTERVAL_MS = 400
+const FETCH_RETRY_LIMIT = 5
+const FETCH_RETRY_BASE_MS = 1000
 
 /**
  * Notion's public API started wrapping record values with permission metadata.
@@ -11,10 +14,34 @@ const { NOTION_ACCESS_TOKEN } = process.env
  * the new shape at the API boundary before notion-client processes it.
  */
 class CompatibleNotionAPI extends NotionAPI {
+  private fetchQueue: Promise<unknown> = Promise.resolve()
+  private nextFetchAt = 0
+
   async fetch<T> (options: Parameters<NotionAPI['fetch']>[0]): Promise<T> {
-    const response = await super.fetch<T>(options)
-    normalizeRecordMap(response)
-    return response
+    const request = this.fetchQueue.then(async () => {
+      const wait = Math.max(0, this.nextFetchAt - Date.now())
+      if (wait) await sleep(wait)
+      this.nextFetchAt = Date.now() + FETCH_MIN_INTERVAL_MS
+
+      for (let attempt = 0; ; attempt++) {
+        try {
+          const response = await super.fetch<T>(options)
+          normalizeRecordMap(response)
+          return response
+        } catch (error) {
+          if (getStatusCode(error) !== 429 || attempt >= FETCH_RETRY_LIMIT) {
+            throw error
+          }
+
+          const retryAfter = getRetryAfterMs(error)
+          const backoff = FETCH_RETRY_BASE_MS * 2 ** attempt
+          await sleep((retryAfter ?? backoff) + Math.random() * 250)
+        }
+      }
+    })
+
+    this.fetchQueue = request.catch(() => undefined)
+    return request
   }
 }
 
@@ -39,6 +66,32 @@ function normalizeRecordMap (response: unknown) {
 
 function isObject (value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
+function getStatusCode (error: unknown): number | undefined {
+  if (!isObject(error)) return
+  if (typeof error.statusCode === 'number') return error.statusCode
+  if (isObject(error.response) && typeof error.response.statusCode === 'number') {
+    return error.response.statusCode
+  }
+}
+
+function getRetryAfterMs (error: unknown): number | undefined {
+  if (!isObject(error) || !isObject(error.response) || !isObject(error.response.headers)) return
+
+  const value = error.response.headers['retry-after']
+  const raw = Array.isArray(value) ? value[0] : value
+  if (typeof raw !== 'string') return
+
+  const seconds = Number(raw)
+  if (Number.isFinite(seconds)) return Math.max(0, seconds * 1000)
+
+  const date = Date.parse(raw)
+  if (Number.isFinite(date)) return Math.max(0, date - Date.now())
+}
+
+function sleep (ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 const PROXIED_METHODS = [
