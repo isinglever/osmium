@@ -170,6 +170,11 @@
       }
     }
 
+    > a,
+    > button {
+      @apply w-auto;
+    }
+
     a {
       @apply hover:underline underline-offset-4
     }

@@ -24,7 +24,7 @@
   }
 
   &:focus-within {
-    @apply border-neutral-400 ring-2 ring-neutral-200 dark:border-neutral-500 dark:ring-neutral-700;
+    @apply border-neutral-400 ring-0 dark:border-neutral-500;
   }
 
   > input {
