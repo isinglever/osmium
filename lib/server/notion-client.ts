@@ -5,7 +5,41 @@ import { NotionAPI } from 'notion-client'
 
 const { NOTION_ACCESS_TOKEN } = process.env
 
-const client = new NotionAPI({ authToken: NOTION_ACCESS_TOKEN })
+/**
+ * Notion's public API started wrapping record values with permission metadata.
+ * Older versions of notion-client expect the record value directly, so unwrap
+ * the new shape at the API boundary before notion-client processes it.
+ */
+class CompatibleNotionAPI extends NotionAPI {
+  async fetch<T> (options: Parameters<NotionAPI['fetch']>[0]): Promise<T> {
+    const response = await super.fetch<T>(options)
+    normalizeRecordMap(response)
+    return response
+  }
+}
+
+const client = new CompatibleNotionAPI({ authToken: NOTION_ACCESS_TOKEN })
+
+function normalizeRecordMap (response: unknown) {
+  if (!isObject(response) || !isObject(response.recordMap)) return
+
+  for (const table of Object.values(response.recordMap)) {
+    if (!isObject(table)) continue
+
+    for (const entry of Object.values(table)) {
+      if (!isObject(entry) || !isObject(entry.value)) continue
+
+      const wrapped = entry.value
+      if ('role' in wrapped && 'value' in wrapped) {
+        entry.value = wrapped.value
+      }
+    }
+  }
+}
+
+function isObject (value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
 
 const PROXIED_METHODS = [
   'getPage',
