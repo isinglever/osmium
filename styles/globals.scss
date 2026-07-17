@@ -264,12 +264,15 @@
         }
 
         .site-nav-item-feed {
-          @include site-nav-button;
+          @apply hidden absolute top-full right-0 mt-2 -mr-1 rounded border border-neutral-300 bg-day px-3 py-2 shadow-sm dark:border-neutral-700 dark:bg-night;
+
+          @at-root .site-nav[data-menu-open] & {
+            @apply block;
+          }
         }
 
-        .site-nav-item-feed span,
         .site-nav-item-more {
-          @apply hidden #{!important};
+          @apply flex #{!important};
         }
       }
     }

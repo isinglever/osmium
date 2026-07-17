@@ -46,7 +46,6 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
   const locale = useLocale()
   const { pages } = useData()
   const navItems = [
-    { label: locale.NAV.INDEX, href: '/page/1' },
     ...pages
       .filter(p => (
         p.type === 'Page' &&
@@ -68,7 +67,7 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
       id="sticky-nav"
       className={cn(
         className,
-        'sticky-nav group w-full px-4 min-h-[4rem] flex flex-row justify-between items-center mb-6 md:mb-10 py-4 md:py-5 bg-opacity-60',
+        'sticky-nav group w-full px-4 min-h-[4rem] flex flex-row justify-between items-center mb-2 md:mb-4 py-4 md:py-5 bg-opacity-60',
         fullWidth ? 'md:px-24' : 'max-w-3xl mx-auto',
       )}
       onClick={handleClickHeader}

@@ -51,7 +51,7 @@ export default function SiteNav ({ items, className, children }: Props) {
         )}
       </ul>
       {children}
-      <button type="button" className="site-nav-item-more" onClick={stopPropa(toggleMenu)}>
+      <button type="button" className="site-nav-item-more" aria-label="Menu" onClick={stopPropa(toggleMenu)}>
         <i/>
       </button>
     </nav>

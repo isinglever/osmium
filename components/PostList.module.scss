@@ -33,15 +33,6 @@
   @apply min-w-0;
 }
 
-.post_tags {
-  @apply mb-3 flex flex-wrap gap-2;
-
-  li {
-    @apply rounded-full bg-neutral-100 px-2.5 py-1 text-[0.6875rem] font-semibold uppercase leading-none tracking-[0.08em] text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
-}
-
 .post_title {
   @apply text-lg font-medium leading-snug tracking-[-0.01em] text-neutral-950 transition-colors duration-200 dark:text-neutral-50 md:text-xl;
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -49,6 +40,10 @@
 
 .post_summary {
   @apply mt-2.5 max-w-2xl text-[0.9375rem] leading-6 text-neutral-600 dark:text-neutral-400 md:text-base md:leading-7;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .post_meta {
@@ -82,7 +77,11 @@
   }
 
   .post_arrow {
-    @apply translate-x-0 opacity-60;
+    @apply hidden;
+  }
+
+  .post_summary {
+    -webkit-line-clamp: 2;
   }
 }
 

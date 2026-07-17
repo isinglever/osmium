@@ -25,11 +25,6 @@ function NormalPost ({ post }: Props) {
     <Link href={'/' + (post.slug || post.hash)} className={css.post_link}>
       <article className={css.post_item}>
         <div className={css.post_content}>
-          {post.tags.length > 0 && (
-            <ul className={css.post_tags} aria-label="Tags">
-              {post.tags.slice(0, 2).map(tag => <li key={tag}>{tag}</li>)}
-            </ul>
-          )}
           <h2 className={css.post_title}>{post.title}</h2>
           {post.summary && <p className={css.post_summary}>{post.summary}</p>}
         </div>
