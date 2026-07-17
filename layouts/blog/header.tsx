@@ -36,7 +36,8 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
   }, [handler, sentinelRef])
 
   function handleClickHeader (ev: MouseEvent) {
-    if (ev.target === navRef.current) {
+    const target = ev.target
+    if (!(target instanceof Element) || !target.closest('a, button')) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
@@ -67,26 +68,32 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
       id="sticky-nav"
       className={cn(
         className,
-        'sticky-nav group w-full px-4 min-h-[4rem] flex flex-row justify-between items-center mb-2 md:mb-4 py-4 md:py-5 bg-opacity-60',
-        fullWidth ? 'md:px-24' : 'max-w-3xl mx-auto',
+        'sticky-nav group w-full mb-2 md:mb-4 bg-opacity-60',
       )}
       onClick={handleClickHeader}
     >
-      <svg
-        viewBox="0 0 24 24"
-        className="caret w-6 h-6 absolute inset-x-0 bottom-0 mx-auto pointer-events-none opacity-30 group-hover:opacity-100 transition duration-100"
+      <div
+        className={cn(
+          'sticky-nav-content relative mx-auto flex min-h-[4rem] w-full flex-row items-center justify-between px-4 py-4 md:py-5',
+          fullWidth ? 'md:px-24' : 'max-w-3xl',
+        )}
       >
-        <path
-          d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z"
-          className="fill-black dark:fill-white"
-        />
-      </svg>
-      <SiteTitle pageTitle={title}/>
-      <SiteNav items={navItems} className="flex-shrink-0 ml-4">
-        <Link href="/search" title={locale.NAV.SEARCH} aria-label={locale.NAV.SEARCH} className={css.site_nav_search}>
-          <i/>
-        </Link>
-      </SiteNav>
+        <svg
+          viewBox="0 0 24 24"
+          className="caret w-6 h-6 absolute inset-x-0 bottom-0 mx-auto pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity duration-150"
+        >
+          <path
+            d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z"
+            className="fill-black dark:fill-white"
+          />
+        </svg>
+        <SiteTitle pageTitle={title}/>
+        <SiteNav items={navItems} className="flex-shrink-0 ml-4">
+          <Link href="/search" title={locale.NAV.SEARCH} aria-label={locale.NAV.SEARCH} className={css.site_nav_search}>
+            <i/>
+          </Link>
+        </SiteNav>
+      </div>
     </div>
   </>
 }
