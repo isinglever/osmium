@@ -24,20 +24,21 @@ export default function SearchLayout ({ tags, activeTag, posts = [] }: Props) {
   })
 
   const locale = useLocale()
+  const placeholder = activeTag
+    ? locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_IN_TAG.replace('%s', activeTag)
+    : locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_ARTICLES
 
   return <>
-    <div className={css.search_input}>
+    <label className={css.search_input}>
       <input
-        type="text"
-        placeholder={
-          activeTag
-            ? locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_IN_TAG.replace('%s', activeTag)
-            : locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_ARTICLES
-        }
+        type="search"
+        placeholder={placeholder}
+        aria-label={placeholder}
+        autoComplete="off"
         onChange={ev => setSearchValue(ev.target.value)}
       />
-      <button type="button"/>
-    </div>
+      <span aria-hidden="true"/>
+    </label>
     <ul className={css.search_tag_list}>
       {Object.entries(tags).map(([tag, count]) => (
         <li key={tag}>
@@ -59,6 +60,9 @@ function Tag ({ tag, count = 0, active = false }: TagProps) {
   const href = active ? '/search' : `/tag/${tag}`
   const className = cn(css.search_tag_link, { [css.active]: active })
   return (
-    <Link href={href} className={className}>{tag}{count ? ` (${count})` : ''}</Link>
+    <Link href={href} className={className} aria-current={active ? 'page' : undefined}>
+      <span>{tag}</span>
+      {count > 0 && <span className={css.search_tag_count}>{count}</span>}
+    </Link>
   )
 }

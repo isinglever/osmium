@@ -176,13 +176,22 @@
 
     @mixin site-nav-button {
       @apply box-content p-1 -m-1 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded transition duration-100;
+      @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 dark:focus-visible:ring-neutral-600;
       @apply flex items-center gap-x-1;
     }
 
     @at-root {
       .site-nav-list {
-        @apply px-4 py-2 absolute top-full right-0 mt-1.5 -mr-1 whitespace-nowrap flex flex-col gap-y-2;
-        @apply bg-day dark:bg-night border border-neutral-400/50 dark:border-neutral-500/50 rounded;
+        @apply min-w-[7.5rem] px-2 py-2 absolute top-full right-0 mt-2 -mr-1 whitespace-nowrap flex flex-col gap-y-1;
+        @apply bg-day dark:bg-night border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg;
+
+        > li > a {
+          @apply rounded-md px-2.5 py-2 hover:no-underline hover:bg-neutral-100 dark:hover:bg-neutral-800;
+
+          > span {
+            @apply ml-0;
+          }
+        }
 
         @at-root .site-nav:not([data-menu-open]) & {
           @apply hidden;
@@ -247,8 +256,12 @@
         }
 
         .site-nav-list {
-          @apply p-0 m-0 static bg-transparent border-0 flex-row items-center gap-x-4;
+          @apply min-w-0 p-0 m-0 static bg-transparent border-0 rounded-none shadow-none flex-row items-center gap-x-4;
           @apply flex #{!important};
+
+          > li > a {
+            @apply rounded-none p-0 hover:bg-transparent;
+          }
         }
 
         .site-theme-switch {
@@ -270,15 +283,20 @@
         }
 
         .site-nav-item-feed {
-          @apply hidden absolute top-full right-0 mt-2 -mr-1 rounded border border-neutral-300 bg-day px-3 py-2 shadow-sm dark:border-neutral-700 dark:bg-night;
+          @apply static m-0 block border-0 bg-transparent p-0 shadow-none;
 
-          @at-root .site-nav[data-menu-open] & {
-            @apply block;
+          a {
+            @include site-nav-button;
+            @apply w-auto;
+          }
+
+          span {
+            @apply sr-only;
           }
         }
 
         .site-nav-item-more {
-          @apply flex #{!important};
+          @apply hidden #{!important};
         }
       }
     }
