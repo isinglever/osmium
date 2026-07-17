@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "OSMIUM_CACHE=1 jiti scripts/prebuild.ts",
-    "build": "next build",
+    "build": "OSMIUM_CACHE=1 next build",
     "postbuild": "jiti scripts/postbuild.ts && next-sitemap --config next-sitemap.config.js",
     "start": "next start",
     "lint": "next lint"
