@@ -81,6 +81,7 @@
         transition: opacity 180ms ease-out;
       }
 
+      .site-name,
       .site-description {
         transition: opacity 180ms ease-out;
       }
@@ -145,7 +146,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .sticky-nav,
-    .site-block-title > span > * {
+    .site-block-title > span > *,
+    .site-name,
+    .site-description {
       transition: none;
     }
   }
