@@ -7,7 +7,7 @@
 }
 
 .index_eyebrow {
-  @apply mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400;
+  @apply flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   &::before {
@@ -20,16 +20,11 @@
   }
 }
 
-.index_heading_row {
-  @apply flex items-end justify-between gap-6;
-
-  h1 {
-    @apply text-3xl md:text-4xl font-semibold leading-tight tracking-[-0.025em] text-neutral-950 dark:text-neutral-50;
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  }
+.index_meta_row {
+  @apply flex items-center justify-between gap-6;
 
   > span {
-    @apply mb-1 flex-none rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400;
+    @apply flex-none rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }

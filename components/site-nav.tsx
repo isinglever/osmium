@@ -1,9 +1,8 @@
 import cn from 'classnames'
 import { stopPropa } from '@/lib/utils'
 import Link from 'next/link'
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { useConfig } from '@/contexts/config'
-import { useTheme } from '@/contexts/theme'
 import { useLocale } from '@/contexts/locale'
 
 type NavItem = {
@@ -50,74 +49,11 @@ export default function SiteNav ({ items, className, children }: Props) {
             </Link>
           </li>
         )}
-        {config.appearance === 'auto' && <ThemeSwitch/>}
       </ul>
       {children}
       <button type="button" className="site-nav-item-more" onClick={stopPropa(toggleMenu)}>
         <i/>
       </button>
     </nav>
-  )
-}
-
-function ThemeSwitch ({ className }: BasicProps) {
-  const { theme, setTheme: _setTheme } = useTheme()
-
-  const root = useRef<HTMLLIElement>(null)
-
-  function toggleMenu (force?: boolean) {
-    if (!root.current) return
-    if (force === false || (force == null && root.current.dataset.menuOpen)) {
-      delete root.current.dataset.menuOpen
-      document.removeEventListener('click', onClickOutside, true)
-    } else {
-      root.current.dataset.menuOpen = 'true'
-      document.addEventListener('click', onClickOutside, true)
-    }
-  }
-
-  const onClickOutside = useCallback(
-    (ev: globalThis.MouseEvent) => {
-      if (root.current && !ev.composedPath().includes(root.current)) {
-        toggleMenu(false)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  )
-
-  const setTheme: typeof _setTheme = value => {
-    _setTheme(value)
-    toggleMenu(false)
-  }
-
-  const locale = useLocale()
-
-  return (
-    <li ref={root} data-theme={theme} className={cn(className, 'site-theme-switch')}>
-      <button type="button" onClick={stopPropa(() => toggleMenu())}>
-        <i/>
-      </button>
-      <ul className="site-theme-list">
-        <li data-theme="light" data-active={theme === 'light' || null}>
-          <button type="button" onClick={() => setTheme('light')}>
-            <i/>
-            <span>{locale.THEME.LIGHT}</span>
-          </button>
-        </li>
-        <li data-theme="dark" data-active={theme === 'dark' || null}>
-          <button type="button" onClick={() => setTheme('dark')}>
-            <i/>
-            <span>{locale.THEME.DARK}</span>
-          </button>
-        </li>
-        <li data-theme="system" data-active={theme === 'system' || null}>
-          <button type="button" onClick={() => setTheme('system')}>
-            <i/>
-            <span>{locale.THEME.SYSTEM}</span>
-          </button>
-        </li>
-      </ul>
-    </li>
   )
 }

@@ -21,11 +21,10 @@ export default function IndexLayout ({ posts, total }: Props) {
 
   return <>
     <header className={css.index_intro}>
-      <p className={css.index_eyebrow}>
-        {isChinese ? '文章归档' : 'The archive'}
-      </p>
-      <div className={css.index_heading_row}>
-        <h1>{isChinese ? '最近文章' : 'Latest writing'}</h1>
+      <div className={css.index_meta_row}>
+        <p className={css.index_eyebrow}>
+          {isChinese ? '文章归档' : 'The archive'}
+        </p>
         <span>{postCount}</span>
       </div>
       {description && <p className={css.index_description}>{description}</p>}
