@@ -1,11 +1,49 @@
 @use '@/assets/icons';
 
+/* Index */
+
+.index_intro {
+  @apply mb-8 md:mb-10;
+}
+
+.index_eyebrow {
+  @apply mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  &::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: #d9524c;
+    box-shadow: 0 0 0 4px rgba(217, 82, 76, 0.1);
+  }
+}
+
+.index_heading_row {
+  @apply flex items-end justify-between gap-6;
+
+  h1 {
+    @apply text-3xl md:text-4xl font-semibold leading-tight tracking-[-0.025em] text-neutral-950 dark:text-neutral-50;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+
+  > span {
+    @apply mb-1 flex-none rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+}
+
+.index_description {
+  @apply mt-4 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-300;
+}
+
 /* Site Nav */
 
 .site_nav_search {
   // TODO: This may not be necessary
   @apply box-content p-1 -m-1 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded transition duration-100;
-  @apply flex items-center gap-x-1;
+  @apply flex items-center gap-x-1 rounded-full;
 
   i {
     @include icons.find(black, white);

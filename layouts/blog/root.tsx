@@ -15,7 +15,7 @@ export default function BlogLayout ({ children }: { children: ReactNode }) {
       <Header title={post?.title} fullWidth={post?.fullWidth}/>
       <main className={cn(
         'flex-1 transition-all',
-        { 'self-center px-4 w-full max-w-2xl': !post },
+        { 'self-center px-4 w-full max-w-3xl': !post },
       )}>
         {children}
       </main>

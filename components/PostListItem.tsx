@@ -4,6 +4,7 @@ import { useConfig } from '@/contexts/config'
 import type { PageMeta } from '@/lib/server/page'
 import FormattedDate from '@/components/FormattedDate'
 import UserAvatar from '@/components/UserAvatar'
+import css from './PostList.module.scss'
 
 type Props = {
   post: PageMeta
@@ -21,17 +22,21 @@ export default function PostListItem ({ post }: Props) {
 
 function NormalPost ({ post }: Props) {
   return (
-    <Link href={'/' + (post.slug || post.hash)}>
-      <article className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 py-5">
-        <h2 className="text-lg md:text-xl leading-6 font-medium text-black dark:text-neutral-100">
-          {post.title}
-        </h2>
-        <FormattedDate date={post.date} className="leading-6 text-neutral-600 dark:text-neutral-400"/>
-        {post.summary && (
-          <p className="col-span-full hidden md:block text-gray-700 dark:text-gray-300">
-            {post.summary}
-          </p>
-        )}
+    <Link href={'/' + (post.slug || post.hash)} className={css.post_link}>
+      <article className={css.post_item}>
+        <div className={css.post_content}>
+          {post.tags.length > 0 && (
+            <ul className={css.post_tags} aria-label="Tags">
+              {post.tags.slice(0, 2).map(tag => <li key={tag}>{tag}</li>)}
+            </ul>
+          )}
+          <h2 className={css.post_title}>{post.title}</h2>
+          {post.summary && <p className={css.post_summary}>{post.summary}</p>}
+        </div>
+        <div className={css.post_meta}>
+          <FormattedDate date={post.date} className={css.post_date}/>
+          <span className={css.post_arrow} aria-hidden="true">→</span>
+        </div>
       </article>
     </Link>
   )
@@ -41,7 +46,7 @@ function ProverbPost ({ post }: Props) {
   const { author } = useConfig()
 
   return (
-    <article className="post-type-proverb">
+    <article className={`post-type-proverb ${css.proverb_item}`}>
       <p className="post-author">
         <UserAvatar className="post-author-avatar"/>
         <span>{author}</span>

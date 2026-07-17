@@ -18,6 +18,8 @@
 
   body {
     @apply bg-day dark:bg-night;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
     @at-root .color-scheme-unset & {
       @apply bg-day;
@@ -65,10 +67,14 @@
 
   // Site header: title block
   .site-block-title {
-    @apply flex items-center;
+    @apply flex items-center gap-3;
+
+    .site-logo {
+      @apply h-9 w-9 flex-none drop-shadow-sm;
+    }
 
     > span {
-      @apply hidden ml-2 font-semibold text-gray-600 dark:text-gray-300;
+      @apply hidden font-semibold text-gray-700 dark:text-gray-200;
 
       @media (min-width: theme('screens.sm')) {
         @apply grid grid-rows-1 grid-cols-1;
@@ -87,6 +93,11 @@
     @at-root {
       .site-title {
         @apply whitespace-nowrap overflow-hidden;
+
+        .site-name {
+          @apply text-[1.05rem] tracking-[-0.01em];
+          font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+        }
 
         @at-root .site-description {
           @apply before:content-[',_'] font-normal opacity-0;
@@ -138,7 +149,8 @@
 
   // Site header: nav
   .site-nav {
-    @apply relative flex items-center gap-x-4 text-black dark:text-gray-50;
+    @apply relative flex items-center gap-x-5 text-sm font-medium text-black dark:text-gray-50;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     a, button {
       @apply w-full flex items-center gap-x-2;

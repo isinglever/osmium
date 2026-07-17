@@ -62,13 +62,13 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
   ]
 
   return <>
-    <div className="observer-element h-4 md:h-12" ref={sentinelRef}/>
+    <div className="observer-element h-3 md:h-5" ref={sentinelRef}/>
     <div
       ref={navRef}
       id="sticky-nav"
       className={cn(
         className,
-        'sticky-nav group w-full px-4 h-6 flex flex-row justify-between items-center mb-2 md:mb-12 py-8 bg-opacity-60',
+        'sticky-nav group w-full px-4 min-h-[4rem] flex flex-row justify-between items-center mb-6 md:mb-10 py-4 md:py-5 bg-opacity-60',
         fullWidth ? 'md:px-24' : 'max-w-3xl mx-auto',
       )}
       onClick={handleClickHeader}
@@ -84,7 +84,7 @@ export default function Header ({ title, fullWidth = false, className }: Props) 
       </svg>
       <SiteTitle pageTitle={title}/>
       <SiteNav items={navItems} className="flex-shrink-0 ml-4">
-        <Link href="/search" title={locale.NAV.SEARCH} className={css.site_nav_search}>
+        <Link href="/search" title={locale.NAV.SEARCH} aria-label={locale.NAV.SEARCH} className={css.site_nav_search}>
           <i/>
         </Link>
       </SiteNav>
