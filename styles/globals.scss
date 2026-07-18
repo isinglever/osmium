@@ -91,11 +91,6 @@
       .site-title {
         @apply whitespace-nowrap overflow-hidden;
 
-        .site-name {
-          @apply text-[1.05rem] tracking-[-0.01em];
-          font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-        }
-
         @at-root .site-description {
           @apply before:content-[',_'] font-normal opacity-0;
 
@@ -103,6 +98,12 @@
             @apply hidden;
           }
         }
+      }
+
+      .site-name,
+      .page-title {
+        @apply text-[1.05rem] tracking-[-0.01em];
+        font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
       }
 
       .page-title {
