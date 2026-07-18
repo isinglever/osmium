@@ -30,7 +30,6 @@ function NormalPost ({ post }: Props) {
         </div>
         <div className={css.post_meta}>
           <FormattedDate date={post.date} className={css.post_date}/>
-          <span className={css.post_arrow} aria-hidden="true">→</span>
         </div>
       </article>
     </Link>
