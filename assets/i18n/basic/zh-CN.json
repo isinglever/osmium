@@ -8,7 +8,19 @@
   },
   "PAGINATION": {
     "PREV": "上一页",
-    "NEXT": "下一页"
+    "NEXT": "下一页",
+    "NEWER": "较新文章",
+    "OLDER": "较早文章"
+  },
+  "POST": {
+    "UPDATED": "更新于",
+    "NEWER_POST": "较新文章",
+    "OLDER_POST": "较早文章",
+    "TABLE_OF_CONTENTS": "本页目录"
+  },
+  "CODE": {
+    "COPY_CODE": "复制代码",
+    "COPIED": "已复制"
   },
   "PAGE": {
     "SEARCH": {

@@ -9,6 +9,7 @@ export default class NotionPage {
   parentId!: string
   parentTable!: string
   createdTime!: number
+  updatedTime!: number
   /** @deprecated Use `content` instead */
   hasContent!: boolean
   /** @deprecated Use `format` instead */
@@ -44,6 +45,7 @@ export default class NotionPage {
     this.parentId = block.parent_id
     this.parentTable = block.parent_table
     this.createdTime = block.created_time
+    this.updatedTime = block.last_edited_time
     this.hasContent = Boolean(block.content?.length)
     this.fullWidth = block.format?.page_full_width ?? false
 
