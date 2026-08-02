@@ -48,7 +48,7 @@ export default function LayoutHead ({ post = {} as PageMeta }: Props) {
     },
   } : undefined
 
-  return (
+  return <>
     <Head>
       <title>{title}</title>
 
@@ -81,15 +81,14 @@ export default function LayoutHead ({ post = {} as PageMeta }: Props) {
         {modifiedTime && <meta property="article:modified_time" content={modifiedTime}/>}
         {post.tags.map(tag => <meta property="article:tag" content={tag} key={tag}/>)}
       </>}
-      {structuredData && (
-        <script
-          key="blog-posting-jsonld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replaceAll('<', '\\u003c'),
-          }}
-        />
-      )}
     </Head>
-  )
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replaceAll('<', '\\u003c'),
+        }}
+      />
+    )}
+  </>
 }
