@@ -83,6 +83,7 @@ export default function LayoutHead ({ post = {} as PageMeta }: Props) {
       </>}
       {structuredData && (
         <script
+          key="blog-posting-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData).replaceAll('<', '\\u003c'),
