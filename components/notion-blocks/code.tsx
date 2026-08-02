@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CodeBlock } from 'notion-types'
 import { getTextContent } from 'notion-utils'
 import { Code } from 'react-notion-x/build/third-party/code'
@@ -35,6 +35,7 @@ import 'prismjs/components/prism-swift'
 import 'prismjs/components/prism-wasm'
 import 'prismjs/components/prism-yaml'
 import { useCopyToClipboard } from 'react-use'
+import { useLocale } from '@/contexts/locale'
 
 type Props = {
   block: CodeBlock
@@ -45,18 +46,22 @@ type Props = {
 export default function CodeBlock (props: Props) {
   const content = getTextContent(props.block.properties.title)
   const [state, copyToClipboard] = useCopyToClipboard()
+  const [copied, setCopied] = useState(false)
   const button = useRef<HTMLButtonElement>(null)
+  const locale = useLocale()
 
   useEffect(() => {
-    if (state.error) return
+    if (state.error || state.value !== content || !button.current) return
 
-    button.current!.dataset.success = 'true'
+    setCopied(true)
+    button.current.dataset.success = 'true'
     const timer = setTimeout(() => {
-      delete button.current!.dataset.success
+      if (button.current) delete button.current.dataset.success
+      setCopied(false)
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [state])
+  }, [content, state])
 
   function copy () {
     copyToClipboard(content)
@@ -64,8 +69,19 @@ export default function CodeBlock (props: Props) {
 
   return (
     <div className="osmium-code">
-      <button ref={button} type="button" className="copy-button" onClick={copy}>
+      <button
+        ref={button}
+        type="button"
+        className="copy-button"
+        style={{ display: 'block' }}
+        aria-label={copied ? locale.CODE.COPIED : locale.CODE.COPY_CODE}
+        title={copied ? locale.CODE.COPIED : locale.CODE.COPY_CODE}
+        onClick={copy}
+      >
         <i/>
+        <span className="sr-only" aria-live="polite">
+          {copied ? locale.CODE.COPIED : locale.CODE.COPY_CODE}
+        </span>
       </button>
       <Code {...props}/>
     </div>

@@ -22,6 +22,7 @@ export interface PageMetaRaw {
   summary?: string
   tags: string[]
   date: number
+  updatedAt: number
   status?: PostStatus
 
   parent?: string
@@ -63,6 +64,7 @@ export default class Page implements PageMetaRaw {
       return this.data.createdTime
     }
   }
+  get updatedAt (): number { return this.data.updatedTime }
   get status (): PostStatus | undefined { return this.data.properties.status }
 
   get parent (): string | undefined { return this.data.properties.parent?.[0] }
@@ -90,6 +92,7 @@ export default class Page implements PageMetaRaw {
       'summary',
       'tags',
       'date',
+      'updatedAt',
       'status',
       'parent',
       'child',

@@ -28,6 +28,15 @@ export default function SearchLayout ({ tags, activeTag, posts = [] }: Props) {
     ? locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_IN_TAG.replace('%s', activeTag)
     : locale.PAGE.SEARCH.INPUT_PLACEHOLDER.SEARCH_ARTICLES
 
+  const languageOrder = ['chinese', 'english']
+  const tagEntries = Object.entries(tags).sort(([left], [right]) => {
+    const leftIndex = languageOrder.indexOf(left.toLowerCase())
+    const rightIndex = languageOrder.indexOf(right.toLowerCase())
+    const leftRank = leftIndex === -1 ? languageOrder.length : leftIndex
+    const rightRank = rightIndex === -1 ? languageOrder.length : rightIndex
+    return leftRank - rightRank
+  })
+
   return <>
     <label className={css.search_input}>
       <input
@@ -40,7 +49,7 @@ export default function SearchLayout ({ tags, activeTag, posts = [] }: Props) {
       <span aria-hidden="true"/>
     </label>
     <ul className={css.search_tag_list}>
-      {Object.entries(tags).map(([tag, count]) => (
+      {tagEntries.map(([tag, count]) => (
         <li key={tag}>
           <Tag tag={tag} count={count} active={tag === activeTag}/>
         </li>

@@ -1,5 +1,11 @@
 @use '@/assets/icons';
 
+/* Home */
+
+.home_intro {
+  @apply mb-5 max-w-2xl text-sm leading-6 text-neutral-500 dark:text-neutral-400 sm:text-[0.9375rem];
+}
+
 /* Site Nav */
 
 .site_nav_search {
@@ -122,6 +128,47 @@
   @apply px-4 mt-7 text-neutral-500 dark:text-neutral-400 flex flex-col sm:flex-row items-start gap-2;
 }
 
+.post_dates {
+  @apply flex flex-wrap items-center gap-x-2;
+}
+
 .post_content {
   @apply px-4 mt-7;
+}
+
+.post_navigation {
+  @apply mx-auto mt-10 grid w-full max-w-2xl grid-cols-2 gap-8 border-t border-neutral-200 px-4 pt-6 dark:border-neutral-700;
+
+  a {
+    @apply min-w-0 text-neutral-600 no-underline transition-colors hover:text-neutral-950 dark:text-neutral-400 dark:hover:text-neutral-50;
+
+    span {
+      @apply block text-xs font-medium uppercase tracking-[0.08em];
+    }
+
+    strong {
+      @apply mt-1.5 block text-base font-medium normal-case leading-snug tracking-normal text-neutral-900 dark:text-neutral-100;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    }
+  }
+}
+
+.post_navigation_newer {
+  grid-column: 1;
+}
+
+.post_navigation_older {
+  grid-column: 2;
+  @apply text-right;
+}
+
+@media (max-width: theme('screens.sm')) {
+  .post_navigation {
+    @apply grid-cols-1 gap-5;
+  }
+
+  .post_navigation_newer,
+  .post_navigation_older {
+    grid-column: 1;
+  }
 }

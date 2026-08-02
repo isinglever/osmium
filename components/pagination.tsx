@@ -35,7 +35,7 @@ export default function Pagination ({ page, showNext }: Props) {
           rel="prev"
           className="block rounded-full border border-neutral-300 px-4 py-2 transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
         >
-          ← {locale.PAGINATION.PREV}
+          ← {locale.PAGINATION.NEWER}
         </Link>
       )}
       {showNext && (
@@ -44,7 +44,7 @@ export default function Pagination ({ page, showNext }: Props) {
           rel="next"
           className="block rounded-full border border-neutral-300 px-4 py-2 transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
         >
-          {locale.PAGINATION.NEXT} →
+          {locale.PAGINATION.OLDER} →
         </Link>
       )}
     </div>

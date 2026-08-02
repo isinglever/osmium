@@ -8,7 +8,19 @@
   },
   "PAGINATION": {
     "PREV": "Prev",
-    "NEXT": "Next"
+    "NEXT": "Next",
+    "NEWER": "Newer posts",
+    "OLDER": "Older posts"
+  },
+  "POST": {
+    "UPDATED": "Updated",
+    "NEWER_POST": "Newer post",
+    "OLDER_POST": "Older post",
+    "TABLE_OF_CONTENTS": "On this page"
+  },
+  "CODE": {
+    "COPY_CODE": "Copy code",
+    "COPIED": "Copied"
   },
   "PAGE": {
     "SEARCH": {
