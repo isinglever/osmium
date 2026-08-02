@@ -18,6 +18,8 @@
 
   body {
     @apply bg-day dark:bg-night;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
     @at-root .color-scheme-unset & {
       @apply bg-day;
@@ -46,16 +48,12 @@
   /* Site header */
 
   .sticky-nav {
-    @apply sticky top-0 z-10 bg-day/80 dark:bg-night/80 border-b-transparent backdrop-blur-lg;
-    @apply transition-all duration-300 ease-in-out;
+    @apply sticky top-0 z-10 bg-day/95 dark:bg-night/95 border-b-transparent;
+    transition: border-color 180ms ease-out, background-color 180ms ease-out;
   }
 
   .sticky-nav-full {
     @apply border-b border-opacity-50 border-gray-200 dark:border-gray-600 dark:border-opacity-50 cursor-pointer;
-
-    @media (min-width: theme('screens.md')) {
-      @apply max-w-full px-4 #{!important};
-    }
   }
 
   // Site header: back to top
@@ -65,22 +63,27 @@
 
   // Site header: title block
   .site-block-title {
-    @apply flex items-center;
+    @apply flex items-center gap-3;
+
+    .site-logo {
+      @apply h-9 w-9 flex-none drop-shadow-sm;
+    }
 
     > span {
-      @apply hidden ml-2 font-semibold text-gray-600 dark:text-gray-300;
+      @apply hidden font-semibold text-gray-700 dark:text-gray-200;
 
       @media (min-width: theme('screens.sm')) {
         @apply grid grid-rows-1 grid-cols-1;
       }
 
       > * {
-        @apply row-start-1 col-start-1 transition duration-75;
+        @apply row-start-1 col-start-1;
+        transition: opacity 180ms ease-out;
       }
 
-      > *,
+      .site-name,
       .site-description {
-        @apply transition duration-75;
+        transition: opacity 180ms ease-out;
       }
     }
 
@@ -95,6 +98,12 @@
             @apply hidden;
           }
         }
+      }
+
+      .site-name,
+      .page-title {
+        @apply text-[1.05rem] tracking-[-0.01em];
+        font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
       }
 
       .page-title {
@@ -136,9 +145,19 @@
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-nav,
+    .site-block-title > span > *,
+    .site-name,
+    .site-description {
+      transition: none;
+    }
+  }
+
   // Site header: nav
   .site-nav {
-    @apply relative flex items-center gap-x-4 text-black dark:text-gray-50;
+    @apply relative flex items-center gap-x-5 text-sm font-medium text-black dark:text-gray-50;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     a, button {
       @apply w-full flex items-center gap-x-2;
@@ -152,19 +171,33 @@
       }
     }
 
+    > a,
+    > button {
+      @apply w-auto;
+    }
+
     a {
       @apply hover:underline underline-offset-4
     }
 
     @mixin site-nav-button {
       @apply box-content p-1 -m-1 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded transition duration-100;
+      @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 dark:focus-visible:ring-neutral-600;
       @apply flex items-center gap-x-1;
     }
 
     @at-root {
       .site-nav-list {
-        @apply px-4 py-2 absolute top-full right-0 mt-1.5 -mr-1 whitespace-nowrap flex flex-col gap-y-2;
-        @apply bg-day dark:bg-night border border-neutral-400/50 dark:border-neutral-500/50 rounded;
+        @apply min-w-[7.5rem] px-2 py-2 absolute top-full right-0 mt-2 -mr-1 whitespace-nowrap flex flex-col gap-y-1;
+        @apply bg-day dark:bg-night border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg;
+
+        > li > a {
+          @apply rounded-md px-2.5 py-2 hover:no-underline hover:bg-neutral-100 dark:hover:bg-neutral-800;
+
+          > span {
+            @apply ml-0;
+          }
+        }
 
         @at-root .site-nav:not([data-menu-open]) & {
           @apply hidden;
@@ -229,8 +262,12 @@
         }
 
         .site-nav-list {
-          @apply p-0 m-0 static bg-transparent border-0 flex-row items-center gap-x-4;
+          @apply min-w-0 p-0 m-0 static bg-transparent border-0 rounded-none shadow-none flex-row items-center gap-x-4;
           @apply flex #{!important};
+
+          > li > a {
+            @apply rounded-none p-0 hover:bg-transparent;
+          }
         }
 
         .site-theme-switch {
@@ -252,10 +289,18 @@
         }
 
         .site-nav-item-feed {
-          @include site-nav-button;
+          @apply static m-0 block border-0 bg-transparent p-0 shadow-none;
+
+          a {
+            @include site-nav-button;
+            @apply w-auto;
+          }
+
+          span {
+            @apply sr-only;
+          }
         }
 
-        .site-nav-item-feed span,
         .site-nav-item-more {
           @apply hidden #{!important};
         }

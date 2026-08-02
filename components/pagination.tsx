@@ -30,17 +30,21 @@ export default function Pagination ({ page, showNext }: Props) {
   return (
     <div className={cn('flex mt-5 font-medium text-black dark:text-gray-100', additionalClassName)}>
       {currentPage !== 1 && (
-        <Link href={`/page/${currentPage - 1}`}>
-          <button rel="prev" className="block cursor-pointer">
-            ← {locale.PAGINATION.PREV}
-          </button>
+        <Link
+          href={`/page/${currentPage - 1}`}
+          rel="prev"
+          className="block rounded-full border border-neutral-300 px-4 py-2 transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        >
+          ← {locale.PAGINATION.PREV}
         </Link>
       )}
       {showNext && (
-        <Link href={`/page/${currentPage + 1}`}>
-          <button rel="next" className="block cursor-pointer">
-            {locale.PAGINATION.NEXT} →
-          </button>
+        <Link
+          href={`/page/${currentPage + 1}`}
+          rel="next"
+          className="block rounded-full border border-neutral-300 px-4 py-2 transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        >
+          {locale.PAGINATION.NEXT} →
         </Link>
       )}
     </div>

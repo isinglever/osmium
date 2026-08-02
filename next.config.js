@@ -4,8 +4,11 @@ const config = require('./osmium-config.json')
 module.exports = {
   experimental: {
     appDir: true,
+    // Notion rate-limits bursts from parallel static-page workers.
+    cpus: 1,
   },
   basePath: config.path,
+  staticPageGenerationTimeout: 180,
   images: {
     domains: ['gravatar.com'],
   },
